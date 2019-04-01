@@ -16,8 +16,24 @@ class App extends Component{
     addStudent = (student) => {
         student.id = id++
         this.setState({
-            students: [...this.state.students, student]
+            students: [...this.state.students, student] 
         });
+    }
+
+    deleteStudent = (id) => {
+        const studentsCopy = this.state.students.slice(); //slicing with no value makes a copy of the array
+
+        const index = studentsCopy.findIndex((student)=>{
+            return student.id === id;
+        });
+
+        if(index >= 0){
+            studentsCopy.splice(index, 1);
+
+            this.setState({
+                students: [...studentsCopy]
+            })
+        }
     }
 
     componentDidMount(){
@@ -36,7 +52,7 @@ class App extends Component{
             <div>
                 <h1 className="center"> React SGT</h1>
                 <div className="row">
-                    <StudentsTable col="s12 m8" list={this.state.students}/>
+                    <StudentsTable col="s12 m8" delete={this.deleteStudent} list={this.state.students}/>
                     <AddStudent col="s12 m4" add={this.addStudent}/>
                 </div>
             </div>
